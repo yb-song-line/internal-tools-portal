@@ -62,6 +62,8 @@ main { max-width: 1240px; margin: 0 auto; padding: 48px 26px 70px; }
 .tag-list span { padding: 5px 8px; border-radius: 7px; background: #f1f5f6; color: #586872; font-size: 10px; font-weight: 800; }
 .processing-note { margin-top: auto; padding-top: 18px; color: #72808a; font-size: 11px; }
 .processing-note::before { content: "처리 방식 · "; font-weight: 900; }
+.risk-note { margin: 14px 0 0; padding: 10px 11px; border: 1px solid #f2d49c; border-radius: 10px; background: #fff8e8; color: #80520d; font-size: 11px; line-height: 1.5; }
+.risk-note::before { content: "주의 · "; font-weight: 900; }
 .tool-actions { display: grid; grid-template-columns: 1fr auto; gap: 8px; margin-top: 12px; }
 .tool-actions a { min-height: 43px; display: inline-flex; align-items: center; justify-content: center; border-radius: 10px; text-decoration: none; font-size: 13px; font-weight: 900; }
 .open-tool { background: var(--brand); color: white; }
@@ -108,4 +110,3 @@ footer code { color: #41525c; }
   .login-page { padding: 14px; }
   .login-card { padding: 27px 22px; }
 }
-

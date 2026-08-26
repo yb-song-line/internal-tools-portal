@@ -35,6 +35,8 @@
 
 Pages 주소는 `https://git.linecorp.com/pages/yb-song/internal-tools-portal/`입니다. 미로그인 사용자는 사내 Git 로그인 화면으로 이동하므로 공유 비밀번호를 별도로 저장하지 않습니다.
 
+외부 사용자는 `https://yb-song-line.github.io/internal-tools-portal/`에서 로그인 없이 이용할 수 있습니다. 외부 공개본에는 비밀번호, API 키, 사내 전용 URL, 개인정보 또는 미공개 업무 데이터를 추가하지 마세요.
+
 ## 로컬 실행
 
 ```bash

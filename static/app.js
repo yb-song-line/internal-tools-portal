@@ -1,4 +1,5 @@
 const state = { tools: [], category: "전체", query: "" };
+const isPublicMirror = window.location.hostname === "yb-song-line.github.io";
 const elements = {
   title: document.getElementById("portalTitle"),
   subtitle: document.getElementById("portalSubtitle"),
@@ -60,6 +61,11 @@ function createToolCard(tool) {
   processing.className = "processing-note";
   processing.textContent = text(tool.processing) || "처리 방식 확인 필요";
 
+  const risk = document.createElement("p");
+  risk.className = "risk-note";
+  risk.textContent = text(tool.riskNote);
+  risk.hidden = !risk.textContent;
+
   const actions = document.createElement("div");
   actions.className = "tool-actions";
   const openLink = document.createElement("a");
@@ -79,7 +85,7 @@ function createToolCard(tool) {
     actions.append(sourceLink);
   }
 
-  card.append(head, category, title, description, tags, processing, actions);
+  card.append(head, category, title, description, tags, risk, processing, actions);
   return card;
 }
 
@@ -119,7 +125,12 @@ async function initialize() {
   }
   if (!response.ok) throw new Error(`도구 목록을 불러오지 못했습니다 (${response.status})`);
   const data = await response.json();
-  state.tools = Array.isArray(data.tools) ? data.tools : [];
+  state.tools = Array.isArray(data.tools) ? data.tools.map(tool => ({
+    ...tool,
+    url: isPublicMirror && tool.publicUrl ? tool.publicUrl : tool.url,
+    sourceUrl: isPublicMirror ? (tool.publicSourceUrl || "") : tool.sourceUrl,
+    access: isPublicMirror && tool.publicAccess ? tool.publicAccess : tool.access,
+  })) : [];
   elements.title.textContent = text(data.portal?.title) || "업무 도구 포털";
   elements.subtitle.textContent = text(data.portal?.subtitle);
   elements.notice.textContent = text(data.portal?.notice);
