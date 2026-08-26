@@ -4,6 +4,7 @@ const elements = {
   title: document.getElementById("portalTitle"),
   subtitle: document.getElementById("portalSubtitle"),
   notice: document.getElementById("portalNotice"),
+  accessBadge: document.getElementById("portalAccessBadge"),
   count: document.getElementById("toolCount"),
   search: document.getElementById("searchInput"),
   categories: document.getElementById("categoryFilter"),
@@ -133,8 +134,15 @@ async function initialize() {
   })) : [];
   elements.title.textContent = text(data.portal?.title) || "업무 도구 포털";
   elements.subtitle.textContent = text(data.portal?.subtitle);
-  elements.notice.textContent = text(data.portal?.notice);
+  elements.notice.textContent = text(
+    isPublicMirror ? data.portal?.publicNotice : data.portal?.notice
+  );
   elements.notice.hidden = !elements.notice.textContent;
+  if (elements.accessBadge && isPublicMirror) {
+    elements.accessBadge.textContent = "외부 공개";
+    elements.accessBadge.classList.remove("protected");
+    elements.accessBadge.classList.add("public");
+  }
   elements.count.textContent = String(state.tools.length);
   renderCategories();
   renderTools();
