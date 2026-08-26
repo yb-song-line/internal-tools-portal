@@ -12,7 +12,6 @@
   "name": "샘플 도구",
   "description": "도구 설명",
   "url": "https://example.com/",
-  "sourceUrl": "https://git.linecorp.com/example/sample-tool",
   "category": "업무 자동화",
   "icon": "🧰",
   "tags": ["태그1", "태그2"],

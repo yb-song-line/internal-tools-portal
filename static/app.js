@@ -1,5 +1,6 @@
 const state = { tools: [], category: "전체", query: "" };
 const isPublicMirror = window.location.hostname === "yb-song-line.github.io";
+const assetVersion = "20260826-3";
 const elements = {
   title: document.getElementById("portalTitle"),
   subtitle: document.getElementById("portalSubtitle"),
@@ -76,15 +77,6 @@ function createToolCard(tool) {
   openLink.rel = "noopener noreferrer";
   openLink.textContent = "도구 열기";
   actions.append(openLink);
-  if (tool.sourceUrl) {
-    const sourceLink = document.createElement("a");
-    sourceLink.className = "source-link";
-    sourceLink.href = tool.sourceUrl;
-    sourceLink.target = "_blank";
-    sourceLink.rel = "noopener noreferrer";
-    sourceLink.textContent = "Git";
-    actions.append(sourceLink);
-  }
 
   card.append(head, category, title, description, tags, risk, processing, actions);
   return card;
@@ -119,7 +111,9 @@ function renderCategories() {
 
 async function initialize() {
   const toolsUrl = document.body.dataset.toolsUrl || "/api/tools";
-  const response = await fetch(toolsUrl, { credentials: "same-origin", cache: "no-store" });
+  const versionedToolsUrl = new URL(toolsUrl, window.location.href);
+  versionedToolsUrl.searchParams.set("v", assetVersion);
+  const response = await fetch(versionedToolsUrl, { credentials: "same-origin", cache: "no-store" });
   if (response.status === 401) {
     window.location.assign("/login");
     return;
@@ -129,7 +123,6 @@ async function initialize() {
   state.tools = Array.isArray(data.tools) ? data.tools.map(tool => ({
     ...tool,
     url: isPublicMirror && tool.publicUrl ? tool.publicUrl : tool.url,
-    sourceUrl: isPublicMirror ? (tool.publicSourceUrl || "") : tool.sourceUrl,
     access: isPublicMirror && tool.publicAccess ? tool.publicAccess : tool.access,
   })) : [];
   elements.title.textContent = text(data.portal?.title) || "업무 도구 포털";
