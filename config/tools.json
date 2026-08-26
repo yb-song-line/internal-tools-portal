@@ -42,6 +42,21 @@
       "featured": true,
       "order": 20,
       "enabled": true
+    },
+    {
+      "id": "address-split-converter",
+      "name": "주소 분리 변환 도구",
+      "description": "Excel·CSV 파일의 한글 주소를 사내 주소체계에 맞게 분리하고 우편번호를 보완합니다.",
+      "url": "https://yeonkhong.github.io/yk-hong/index.v5.html",
+      "category": "데이터 변환",
+      "icon": "🧩",
+      "tags": ["Excel", "CSV", "주소 분리", "우편번호"],
+      "processing": "브라우저 내부 처리 · 일부 주소와 상호명은 Kakao API에 전송",
+      "riskNote": "개인정보나 미공개 정보가 포함된 파일은 사용하지 말고, 실제 LPA 등록 전에 변환 결과를 반드시 확인하세요.",
+      "access": "external-public",
+      "featured": false,
+      "order": 30,
+      "enabled": true
     }
   ]
 }
