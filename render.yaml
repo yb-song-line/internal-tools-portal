@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: internal-tools-portal
+    runtime: python
+    plan: free
+    region: singapore
+    buildCommand: "python -m compileall -q server.py"
+    startCommand: python server.py
+    healthCheckPath: /healthz
+    envVars:
+      - key: PYTHONUNBUFFERED
+        value: "1"
+      - key: PORTAL_USERNAME
+        value: team
+      - key: PORTAL_PASSWORD
+        sync: false
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: SESSION_TTL_HOURS
+        value: "12"
+

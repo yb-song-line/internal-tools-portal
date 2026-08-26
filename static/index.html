@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <link rel="icon" href="/favicon.svg">
+  <link rel="stylesheet" href="/static/styles.css">
+  <title>업무 도구 포털</title>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="/" aria-label="업무 도구 포털 홈">
+        <span class="brand-mark">T</span>
+        <span>Team Tools</span>
+      </a>
+      <form method="post" action="/logout"><button class="logout-button" type="submit">로그아웃</button></form>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">INTERNAL TOOLKIT</p>
+        <h1 id="portalTitle">업무 도구 포털</h1>
+        <p id="portalSubtitle">팀 공용 도구를 한곳에서 빠르게 실행하세요.</p>
+      </div>
+      <div class="hero-count"><strong id="toolCount">0</strong><span>사용 가능한 도구</span></div>
+    </section>
+
+    <section class="toolbar" aria-label="도구 검색 및 필터">
+      <label class="search-field">
+        <span aria-hidden="true">⌕</span>
+        <input id="searchInput" type="search" placeholder="도구명, 설명, 태그 검색" autocomplete="off">
+      </label>
+      <div class="category-filter" id="categoryFilter" role="group" aria-label="카테고리"></div>
+    </section>
+
+    <section class="notice" id="portalNotice" aria-label="이용 안내"></section>
+    <section class="tool-grid" id="toolGrid" aria-live="polite"></section>
+    <section class="empty-state" id="emptyState" hidden>
+      <strong>검색 결과가 없습니다.</strong>
+      <span>다른 검색어나 카테고리를 선택해 주세요.</span>
+    </section>
+  </main>
+
+  <footer>
+    <span>Team Tools</span>
+    <span>도구 추가는 <code>config/tools.json</code>에서 관리합니다.</span>
+  </footer>
+  <script src="/static/app.js" defer></script>
+</body>
+</html>
+

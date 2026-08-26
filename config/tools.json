@@ -1,0 +1,40 @@
+{
+  "portal": {
+    "title": "업무 도구 포털",
+    "subtitle": "반복 업무를 더 빠르고 안전하게 처리하는 팀 공용 도구",
+    "notice": "외부 공개로 표시된 도구는 포털과 별개의 공개 URL입니다. 민감정보는 각 도구의 안내를 먼저 확인해 주세요."
+  },
+  "tools": [
+    {
+      "id": "naver-road-address",
+      "name": "네이버 도로명주소 변환기",
+      "description": "점포명이 담긴 Excel 파일을 네이버 지도 검색 결과 기준 도로명주소로 변환합니다.",
+      "url": "https://naver-roadaddr-webapp.onrender.com/",
+      "sourceUrl": "https://github.com/yb-song-line/naver-roadaddr-webapp",
+      "category": "데이터 변환",
+      "icon": "📍",
+      "tags": ["Excel", "주소", "Render"],
+      "processing": "서버 처리",
+      "access": "external-public",
+      "featured": true,
+      "order": 10,
+      "enabled": true
+    },
+    {
+      "id": "print-size-exporter",
+      "name": "출력 파일 변환기",
+      "description": "PDF 또는 PDF 호환 AI 파일에서 출력 영역을 찾아 JPG·PNG 파일로 생성합니다.",
+      "url": "https://yb-song-line.github.io/print-size-exporter/",
+      "sourceUrl": "https://github.com/yb-song-line/print-size-exporter",
+      "category": "파일 변환",
+      "icon": "🖨️",
+      "tags": ["PDF", "AI", "JPG·PNG"],
+      "processing": "브라우저 내부 처리",
+      "access": "external-public",
+      "featured": true,
+      "order": 20,
+      "enabled": true
+    }
+  ]
+}
+

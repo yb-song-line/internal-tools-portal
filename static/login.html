@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <link rel="icon" href="/favicon.svg">
+  <link rel="stylesheet" href="/static/styles.css">
+  <title>로그인 · 업무 도구 포털</title>
+</head>
+<body class="login-page">
+  <main class="login-shell">
+    <section class="login-card">
+      <div class="login-brand"><span class="brand-mark">T</span><span>Team Tools</span></div>
+      <p class="eyebrow">PRIVATE WORKSPACE</p>
+      <h1>업무 도구 포털</h1>
+      <p class="login-description">허용된 팀원만 사용할 수 있습니다.<br>공용 계정 정보를 입력해 주세요.</p>
+      <div class="login-error" id="loginError" hidden>아이디 또는 비밀번호가 올바르지 않습니다.</div>
+      <form class="login-form" method="post" action="/login">
+        <label>아이디<input type="text" name="username" autocomplete="username" required autofocus></label>
+        <label>비밀번호<input type="password" name="password" autocomplete="current-password" required></label>
+        <button type="submit">로그인</button>
+      </form>
+      <p class="login-security">로그인은 암호화된 HTTPS 연결과 보안 쿠키로 유지됩니다.</p>
+    </section>
+  </main>
+  <script src="/static/login.js" defer></script>
+</body>
+</html>
+
