@@ -119,7 +119,7 @@ function renderCategories() {
 
 async function initialize() {
   const toolsUrl = document.body.dataset.toolsUrl || "/api/tools";
-  const response = await fetch(toolsUrl, { credentials: "same-origin" });
+  const response = await fetch(toolsUrl, { credentials: "same-origin", cache: "no-store" });
   if (response.status === 401) {
     window.location.assign("/login");
     return;
