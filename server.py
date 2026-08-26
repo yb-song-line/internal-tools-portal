@@ -215,8 +215,13 @@ class PortalHandler(BaseHTTPRequestHandler):
         if path == "/healthz":
             self.send_json({"status": "ok", "tools": len(CONFIG["tools"])})
             return
-        if path in {"/static/styles.css", "/static/login.js", "/favicon.svg"}:
-            self.serve_static(path.removeprefix("/static/").removeprefix("/"))
+        if path in {"/static/styles.css", "/static/login.js", "/favicon.svg", "/favicon.ico"}:
+            relative_path = (
+                "favicon.svg"
+                if path in {"/favicon.svg", "/favicon.ico"}
+                else path.removeprefix("/static/")
+            )
+            self.serve_static(relative_path)
             return
         if path == "/login":
             if self.is_authenticated():
