@@ -19,6 +19,7 @@ function toolSearchText(tool) {
 }
 
 function accessLabel(access) {
+  if (access === "enterprise-protected") return { label: "사내 Git 인증", className: "protected" };
   if (access === "portal-protected") return { label: "포털 내 보호", className: "protected" };
   return { label: "외부 공개 URL", className: "public" };
 }
@@ -110,7 +111,8 @@ function renderCategories() {
 }
 
 async function initialize() {
-  const response = await fetch("/api/tools", { credentials: "same-origin" });
+  const toolsUrl = document.body.dataset.toolsUrl || "/api/tools";
+  const response = await fetch(toolsUrl, { credentials: "same-origin" });
   if (response.status === 401) {
     window.location.assign("/login");
     return;
@@ -135,4 +137,3 @@ elements.search.addEventListener("input", event => {
 initialize().catch(error => {
   elements.grid.innerHTML = `<div class="load-error"><strong>도구 목록을 불러오지 못했습니다.</strong><span>${text(error.message)}</span></div>`;
 });
-
