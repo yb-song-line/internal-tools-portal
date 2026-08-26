@@ -8,10 +8,14 @@ import server  # noqa: E402
 
 
 class PortalTests(unittest.TestCase):
-    def test_config_has_unique_valid_tool_ids(self) -> None:
-        tool_ids = [tool["id"] for tool in server.CONFIG["tools"]]
-        self.assertEqual(len(tool_ids), len(set(tool_ids)))
-        self.assertTrue(all(server.ID_PATTERN.fullmatch(tool_id) for tool_id in tool_ids))
+    def test_config_has_unique_valid_content_ids(self) -> None:
+        content_ids = [
+            item["id"]
+            for collection in (server.CONFIG["tools"], server.CONFIG["references"])
+            for item in collection
+        ]
+        self.assertEqual(len(content_ids), len(set(content_ids)))
+        self.assertTrue(all(server.ID_PATTERN.fullmatch(item_id) for item_id in content_ids))
 
     def test_signed_session_rejects_tampering(self) -> None:
         token = server.create_session(server.PORTAL_USERNAME)
@@ -22,4 +26,3 @@ class PortalTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-

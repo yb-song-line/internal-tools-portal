@@ -31,13 +31,24 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .logout-button { min-height: 38px; padding: 8px 13px; border: 1px solid #d3dde2; border-radius: 10px; background: white; color: #4c5d67; font-weight: 750; cursor: pointer; }
 .logout-button:hover { border-color: #acbbc3; color: var(--ink); }
 main { max-width: 1240px; margin: 0 auto; padding: 48px 26px 70px; }
-.hero { display: flex; align-items: flex-end; justify-content: space-between; gap: 32px; margin-bottom: 34px; }
+.hero { display: flex; align-items: flex-end; justify-content: space-between; gap: 32px; margin-bottom: 28px; }
 .eyebrow { margin: 0 0 8px; color: var(--brand-dark); font-size: 12px; font-weight: 900; letter-spacing: .12em; }
 .hero h1 { margin: 0; font-size: clamp(34px, 5vw, 57px); line-height: 1.06; letter-spacing: -.055em; }
 .hero-copy > p:last-child { max-width: 680px; margin: 14px 0 0; color: var(--muted); font-size: 16px; }
 .hero-count { min-width: 145px; padding: 17px 20px; border: 1px solid #cfe7db; border-radius: 16px; background: var(--brand-soft); color: var(--brand-dark); }
 .hero-count strong { display: block; font-size: 30px; line-height: 1; }
 .hero-count span { display: block; margin-top: 5px; font-size: 12px; font-weight: 750; }
+.portal-nav { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-bottom: 42px; }
+.portal-tab { min-height: 90px; padding: 17px 19px; border: 1px solid #d3dee3; border-radius: 16px; background: rgba(255,255,255,.76); color: var(--ink); text-align: left; cursor: pointer; transition: border-color .15s ease, background .15s ease, transform .15s ease; }
+.portal-tab:hover { border-color: #a8cabb; transform: translateY(-1px); }
+.portal-tab.active { border-color: var(--brand); background: var(--brand-soft); box-shadow: 0 8px 25px rgba(5,119,69,.08); }
+.portal-tab span, .portal-tab small { display: block; }
+.portal-tab span { font-size: 17px; font-weight: 900; letter-spacing: -.025em; }
+.portal-tab small { margin-top: 5px; color: var(--muted); font-size: 11px; font-weight: 700; }
+.section-heading { margin-bottom: 18px; }
+.section-kicker { margin: 0 0 4px; color: var(--brand-dark); font-size: 10px; font-weight: 900; letter-spacing: .12em; }
+.section-heading h2 { margin: 0; font-size: 27px; letter-spacing: -.04em; }
+.section-heading > p:last-child { margin: 5px 0 0; color: var(--muted); font-size: 13px; }
 .toolbar { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-bottom: 18px; }
 .search-field { flex: 1 1 370px; max-width: 500px; position: relative; }
 .search-field span { position: absolute; left: 15px; top: 50%; transform: translateY(-54%); color: #778790; font-size: 23px; }
@@ -47,6 +58,7 @@ main { max-width: 1240px; margin: 0 auto; padding: 48px 26px 70px; }
 .category-filter button { min-height: 38px; padding: 8px 13px; border: 1px solid #d2dce1; border-radius: 999px; background: white; color: #586872; font-size: 13px; font-weight: 800; cursor: pointer; }
 .category-filter button.active { border-color: var(--brand); background: var(--brand-soft); color: var(--brand-dark); }
 .notice { margin-bottom: 20px; padding: 12px 15px; border: 1px solid #efd9ac; border-radius: 12px; background: #fff9ed; color: #76531e; font-size: 12px; }
+.policy-notice { border-color: #e7c57b; background: #fff6df; color: #704a0d; font-weight: 750; }
 .tool-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 17px; }
 .tool-card { min-height: 360px; display: flex; flex-direction: column; padding: 21px; border: 1px solid var(--line); border-radius: 18px; background: var(--paper); box-shadow: var(--shadow); }
 .tool-card.featured { border-color: #c6e7d6; }
@@ -56,20 +68,20 @@ main { max-width: 1240px; margin: 0 auto; padding: 48px 26px 70px; }
 .access-badge.public { background: var(--public-soft); color: var(--public); }
 .access-badge.protected { background: var(--brand-soft); color: var(--brand-dark); }
 .tool-category { margin: 0 0 6px; color: var(--brand-dark); font-size: 11px; font-weight: 900; }
-.tool-card h2 { margin: 0; font-size: 21px; letter-spacing: -.035em; }
+.tool-card h3 { margin: 0; font-size: 21px; letter-spacing: -.035em; }
 .tool-description { min-height: 66px; margin: 10px 0 14px; color: var(--muted); font-size: 13px; }
 .tag-list { display: flex; flex-wrap: wrap; gap: 6px; }
 .tag-list span { padding: 5px 8px; border-radius: 7px; background: #f1f5f6; color: #586872; font-size: 10px; font-weight: 800; }
 .processing-note { margin-top: auto; padding-top: 18px; color: #72808a; font-size: 11px; }
 .processing-note::before { content: "처리 방식 · "; font-weight: 900; }
+.reference-note { margin-top: auto; padding-top: 18px; color: #72808a; font-size: 11px; }
+.reference-note::before { content: "자료 기준 · "; font-weight: 900; }
 .risk-note { margin: 14px 0 0; padding: 10px 11px; border: 1px solid #f2d49c; border-radius: 10px; background: #fff8e8; color: #80520d; font-size: 11px; line-height: 1.5; }
 .risk-note::before { content: "주의 · "; font-weight: 900; }
 .tool-actions { display: grid; grid-template-columns: 1fr auto; gap: 8px; margin-top: 12px; }
 .tool-actions a { min-height: 43px; display: inline-flex; align-items: center; justify-content: center; border-radius: 10px; text-decoration: none; font-size: 13px; font-weight: 900; }
 .open-tool { background: var(--brand); color: white; }
 .open-tool:hover { background: var(--brand-dark); }
-.source-link { min-width: 55px; border: 1px solid #d2dce1; color: #53636d; }
-.source-link:hover { border-color: #aebdc5; color: var(--ink); }
 .empty-state { padding: 70px 20px; border: 1px dashed #bdcad0; border-radius: 18px; text-align: center; color: var(--muted); }
 .empty-state strong, .empty-state span { display: block; }
 .empty-state strong { color: var(--ink); margin-bottom: 5px; }
@@ -104,6 +116,8 @@ footer code { color: #41525c; }
   .hero { display: block; }
   .hero-count { display: inline-block; min-width: 130px; margin-top: 21px; }
   .hero h1 { font-size: 37px; }
+  .portal-nav { grid-template-columns: 1fr; margin-bottom: 34px; }
+  .portal-tab { min-height: 78px; }
   .tool-grid { grid-template-columns: 1fr; }
   .tool-card { min-height: 330px; }
   footer { padding: 20px 16px 30px; flex-direction: column; }

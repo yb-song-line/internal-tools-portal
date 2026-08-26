@@ -1,6 +1,6 @@
-# Internal Tools Portal
+# 업무 포털
 
-팀 공용 웹 도구를 한곳에 모아 제공하는 설정 기반 포털입니다. 기본 배포는 사내 GitHub Enterprise Pages를 사용하며 `git.linecorp.com` 로그인 이후에만 접근할 수 있습니다.
+팀 공용 웹 도구와 공개 정보 기반 참고 자료를 한곳에 모아 제공하는 설정 기반 포털입니다. 기본 배포는 사내 GitHub Enterprise Pages를 사용하며 `git.linecorp.com` 로그인 이후에만 접근할 수 있습니다.
 
 ## 도구 추가
 
@@ -27,6 +27,28 @@
 - `portal-protected`: 포털 내부 경로에 있어 포털 인증 적용
 - `enterprise-protected`: 사내 GitHub Enterprise 로그인 적용
 - `external-public`: 외부 공개 URL이므로 포털을 통하지 않고도 직접 접근 가능
+
+## 인사이트 자료 추가
+
+`config/tools.json`의 `references` 배열에 공개 HTML 보고서나 분석 자료를 추가합니다.
+
+```json
+{
+  "id": "sample-public-report",
+  "name": "공개 동향 보고서",
+  "description": "외부 공개 자료를 시각화한 HTML 보고서입니다.",
+  "url": "https://example.com/report.html",
+  "category": "시장 동향",
+  "icon": "▤",
+  "tags": ["공개 자료", "HTML"],
+  "basis": "외부 공개 정보 기반",
+  "access": "external-public",
+  "order": 10,
+  "enabled": true
+}
+```
+
+인사이트 라이브러리에는 외부 공개 정보로만 작성되고 공개 배포가 허용된 자료를 등록합니다. 대외비, 개인정보, 미공개 실적, 계약 정보, API 키 또는 사내 전용 URL이 포함된 자료는 등록할 수 없습니다.
 
 ## 사내 GitHub Pages 배포
 

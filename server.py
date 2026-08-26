@@ -32,22 +32,28 @@ def load_config() -> dict:
         config = json.load(stream)
     portal = config.get("portal")
     tools = config.get("tools")
-    if not isinstance(portal, dict) or not isinstance(tools, list):
-        raise RuntimeError("tools.json must contain portal and tools")
+    references = config.get("references")
+    if not isinstance(portal, dict) or not isinstance(tools, list) or not isinstance(references, list):
+        raise RuntimeError("tools.json must contain portal, tools, and references")
     seen_ids: set[str] = set()
-    for tool in tools:
-        tool_id = tool.get("id", "")
-        if not ID_PATTERN.fullmatch(tool_id) or tool_id in seen_ids:
-            raise RuntimeError(f"Invalid or duplicate tool id: {tool_id!r}")
-        seen_ids.add(tool_id)
-        for field in ("name", "description", "category", "url"):
-            if not isinstance(tool.get(field), str) or not tool[field].strip():
-                raise RuntimeError(f"Tool {tool_id!r} is missing {field}")
-        parsed = urlparse(tool["url"])
-        if parsed.scheme not in {"http", "https"} or not parsed.netloc:
-            raise RuntimeError(f"Tool {tool_id!r} has an invalid URL")
+    for collection_name, items in (("tool", tools), ("reference", references)):
+        for item in items:
+            item_id = item.get("id", "") if isinstance(item, dict) else ""
+            if not ID_PATTERN.fullmatch(item_id) or item_id in seen_ids:
+                raise RuntimeError(f"Invalid or duplicate {collection_name} id: {item_id!r}")
+            seen_ids.add(item_id)
+            for field in ("name", "description", "category", "url"):
+                if not isinstance(item.get(field), str) or not item[field].strip():
+                    raise RuntimeError(f"{collection_name.title()} {item_id!r} is missing {field}")
+            parsed = urlparse(item["url"])
+            if parsed.scheme not in {"http", "https"} or not parsed.netloc:
+                raise RuntimeError(f"{collection_name.title()} {item_id!r} has an invalid URL")
     config["tools"] = sorted(
         (tool for tool in tools if tool.get("enabled", True)),
+        key=lambda item: (int(item.get("order", 9999)), item["name"]),
+    )
+    config["references"] = sorted(
+        (item for item in references if item.get("enabled", True)),
         key=lambda item: (int(item.get("order", 9999)), item["name"]),
     )
     return config
