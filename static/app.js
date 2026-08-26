@@ -1,6 +1,6 @@
 const state = { tools: [], references: [], section: "tools", category: "전체", query: "" };
 const isPublicMirror = window.location.hostname === "yb-song-line.github.io";
-const assetVersion = "20260826-4";
+const assetVersion = "20260826-5";
 const sectionSettings = {
   tools: {
     kicker: "WORK TOOLS",

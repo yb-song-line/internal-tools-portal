@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Visa Destinations 분석 리포트</title>
+<style>
+  :root{
+    --navy:#0f1f4d;
+    --blue:#174ea6;
+    --sky:#eaf2ff;
+    --gold:#f5b400;
+    --mint:#e9f8f3;
+    --green:#16805d;
+    --red:#c33b32;
+    --ink:#182230;
+    --muted:#667085;
+    --line:#e6eaf0;
+    --bg:#f5f7fb;
+    --card:#ffffff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans KR",Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}
+  a{color:var(--blue);text-decoration:none}
+  .wrap{max-width:1180px;margin:0 auto;padding:28px 22px 70px}
+  .hero{background:linear-gradient(135deg,#0d1c49 0%,#143579 62%,#2457b6 100%);color:#fff;border-radius:24px;padding:40px 42px;position:relative;overflow:hidden;box-shadow:0 18px 42px rgba(20,53,121,.18)}
+  .hero:after{content:"";position:absolute;right:-90px;top:-60px;width:320px;height:320px;border-radius:50%;border:54px solid rgba(255,255,255,.07)}
+  .hero .kicker{font-size:14px;font-weight:700;letter-spacing:.08em;color:#c8d8ff;text-transform:uppercase}
+  .hero h1{font-size:42px;line-height:1.15;margin:10px 0 12px;max-width:800px}
+  .hero p{font-size:18px;max-width:820px;color:#e9efff;margin:0}
+  .hero .date{margin-top:20px;font-size:13px;color:#c7d5f8}
+  .section{margin-top:28px}
+  .section h2{font-size:27px;margin:0 0 14px;color:var(--navy)}
+  .section .lead{color:var(--muted);margin-top:-6px;margin-bottom:18px}
+  .grid{display:grid;gap:16px}
+  .grid-3{grid-template-columns:repeat(3,1fr)}
+  .grid-4{grid-template-columns:repeat(4,1fr)}
+  .grid-2{grid-template-columns:repeat(2,1fr)}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px;box-shadow:0 7px 22px rgba(16,24,40,.04)}
+  .stat{padding:22px}
+  .stat .num{font-size:36px;font-weight:800;color:var(--blue);line-height:1}
+  .stat .label{margin-top:8px;font-weight:700}
+  .stat .sub{font-size:13px;color:var(--muted);margin-top:4px}
+  .summary-box{display:grid;grid-template-columns:1.2fr .8fr;gap:16px}
+  .quote{background:#fff;border-left:5px solid var(--gold);border-radius:14px;padding:22px 24px;font-size:21px;font-weight:750;color:var(--navy)}
+  .mini{font-size:14px;color:var(--muted)}
+  .flow{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:8px}
+  .flow .step{flex:1;min-width:150px;background:#fff;border:1px solid #dfe6f3;border-radius:16px;padding:16px;text-align:center;font-weight:700;color:var(--navy)}
+  .flow .arrow{font-size:22px;color:#89a1ce;font-weight:800}
+  .pill{display:inline-block;padding:5px 9px;border-radius:999px;background:var(--sky);color:var(--blue);font-size:12px;font-weight:700;margin:3px 4px 3px 0}
+  .city{position:relative;overflow:hidden}
+  .city h3{margin:0 0 4px;font-size:21px;color:var(--navy)}
+  .city .flag{font-size:28px;margin-right:7px}
+  .city .tagline{color:var(--muted);font-size:14px;margin-bottom:13px}
+  .city ul{padding-left:18px;margin:8px 0 0}
+  .city li{margin:7px 0}
+  .city:before{content:"";position:absolute;left:0;top:0;width:100%;height:5px;background:var(--blue)}
+  .city.paris:before{background:#7259d9}.city.london:before{background:#4c79ca}.city.dubai:before{background:#d28b25}.city.thai:before{background:#1b9a73}.city.nyc:before{background:#d64d48}
+  .deep{background:linear-gradient(135deg,#f5fffb,#ffffff);border:1px solid #cfede1}
+  .songwat{background:linear-gradient(135deg,#fff8e8,#fff);border:1px solid #f0deb0}
+  .diagram{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;align-items:stretch}
+  .diagram .node{background:white;border:1px solid var(--line);border-radius:15px;padding:15px;text-align:center;min-height:110px;display:flex;flex-direction:column;justify-content:center}
+  .diagram .node b{color:var(--navy);font-size:15px}.diagram .node span{font-size:12px;color:var(--muted);margin-top:5px}
+  .matrix{width:100%;border-collapse:separate;border-spacing:0;background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden}
+  .matrix th,.matrix td{padding:13px 14px;border-bottom:1px solid var(--line);text-align:left;font-size:14px;vertical-align:top}
+  .matrix th{background:#f2f5fa;color:var(--navy);font-weight:800}
+  .matrix tr:last-child td{border-bottom:0}
+  .ok{color:var(--green);font-weight:800}.plan{color:#8a6400;font-weight:800}.na{color:var(--muted)}
+  .insight{background:#101f4a;color:#fff;border-radius:20px;padding:24px}
+  .insight h3{margin:0 0 8px;font-size:20px}.insight p{margin:0;color:#dce5ff}
+  .lpbox{background:linear-gradient(135deg,#eef5ff,#ffffff);border:1px solid #d4e0f7}
+  .lp-flow{display:grid;grid-template-columns:1fr auto 1fr;gap:14px;align-items:center}
+  .lp-side{padding:18px;border-radius:16px;background:#fff;border:1px solid var(--line)}
+  .lp-side h3{margin-top:0;color:var(--navy)}
+  .vs{font-size:24px;font-weight:900;color:var(--blue)}
+  .sources{font-size:13px;color:var(--muted)}
+  .sources li{margin:7px 0}
+  .footer{margin-top:34px;text-align:center;color:#98a2b3;font-size:12px}
+  @media(max-width:900px){.grid-4,.grid-3,.grid-2,.summary-box,.lp-flow,.diagram{grid-template-columns:1fr}.flow{display:grid;grid-template-columns:1fr}.flow .arrow{transform:rotate(90deg);text-align:center}.hero h1{font-size:34px}.vs{text-align:center}}
+  @media print{body{background:#fff}.wrap{max-width:none;padding:0}.hero,.card,.insight{box-shadow:none}.section{page-break-inside:avoid}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <div class="kicker">Market Intelligence / Travel & Payments</div>
+    <h1>Visa Destinations<br>글로벌 운영 사례 및 전략 분석</h1>
+    <p>Visa가 도시별 여행 경험, 가맹점 혜택, 프리미엄 카드 서비스를 하나의 Destination Experience로 묶는 여행·라이프스타일 프로그램.</p>
+    <div class="date">기준일: 2026.08.21 · 공개 Visa 자료 기반 정리</div>
+  </header>
+
+  <section class="section">
+    <div class="grid grid-4">
+      <div class="card stat"><div class="num">10</div><div class="label">현재 운영 지역</div><div class="sub">Visa 공식 글로벌 발표 기준</div></div>
+      <div class="card stat"><div class="num">7</div><div class="label">핵심 카테고리</div><div class="sub">Dining · Culture · Shopping · Wellness 등</div></div>
+      <div class="card stat"><div class="num">3</div><div class="label">혜택 레이어</div><div class="sub">Discount → Priority → Exclusive Experience</div></div>
+      <div class="card stat"><div class="num">1</div><div class="label">핵심 목표</div><div class="sub">여행 중 Visa의 Top-of-wallet 강화</div></div>
+    </div>
+  </section>
+
+  <section class="section summary-box">
+    <div class="quote">“Visa Destinations는 단순 카드 할인 프로그램이 아니라, 도시 전체를 하나의 여행·결제 경험으로 큐레이션하는 Destination-based Platform에 가깝다.”</div>
+    <div class="card"><b>핵심 구조</b><div style="margin-top:12px"><span class="pill">Destination</span><span class="pill">Curated Merchants</span><span class="pill">Exclusive Benefits</span><span class="pill">Premium Experience</span><span class="pill">Visa Payment</span></div><p class="mini">여행 탐색에서 현지 결제까지 Visa가 자연스럽게 개입하도록 만드는 구조.</p></div>
+  </section>
+
+  <section class="section">
+    <h2>1. Visa Destinations의 작동 방식</h2>
+    <p class="lead">여행자의 이동과 소비 흐름 전체를 Visa 결제로 연결하는 것이 핵심입니다.</p>
+    <div class="flow">
+      <div class="step">여행지 탐색<br><span class="mini">City / District Discovery</span></div><div class="arrow">→</div>
+      <div class="step">큐레이션<br><span class="mini">Dining · Culture · Shopping</span></div><div class="arrow">→</div>
+      <div class="step">Visa 전용 혜택<br><span class="mini">Discount · Priority Access</span></div><div class="arrow">→</div>
+      <div class="step">현지 경험<br><span class="mini">Attraction · Event · Lounge</span></div><div class="arrow">→</div>
+      <div class="step">Visa 결제<br><span class="mini">Cross-border Spend</span></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>2. 혜택은 3단계로 진화</h2>
+    <div class="grid grid-3">
+      <div class="card"><h3>① Basic Benefit</h3><p>가장 이해하기 쉬운 가격 혜택.</p><span class="pill">10~30% 할인</span><span class="pill">Gift Voucher</span><span class="pill">2-for-1</span></div>
+      <div class="card"><h3>② Premium Convenience</h3><p>여행 중 시간과 편의성을 줄여주는 혜택.</p><span class="pill">Priority Entry</span><span class="pill">Fast Track</span><span class="pill">Guaranteed Seating</span></div>
+      <div class="card"><h3>③ Exclusive Experience</h3><p>가격 할인만으로 대체하기 어려운 Visa만의 경험.</p><span class="pill">Early Access</span><span class="pill">Private Experience</span><span class="pill">Lounge</span></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>3. 주요 운영 도시 실제 사례</h2>
+    <p class="lead">도시마다 관광 소비의 특성에 맞춰 프로그램 성격이 달라집니다.</p>
+    <div class="grid grid-2">
+      <div class="card city paris"><h3><span class="flag">🇫🇷</span>Paris</h3><div class="tagline">Culture · Luxury · Fine Dining</div><ul><li>Paris City Pass, 주요 관광명소 할인</li><li>Michelin급 Dining Experience</li><li>La Vallée Village 쇼핑 혜택</li><li>Seine Private Cruise, Eiffel Tower Tour</li><li>루브르 특별 관람·우선 접근 경험</li></ul><p class="mini"><b>핵심:</b> Louvre + Eiffel Tower + Seine + Fine Dining + Luxury Shopping을 하나의 Paris itinerary로 묶음.</p></div>
+      <div class="card city london"><h3><span class="flag">🇬🇧</span>London</h3><div class="tagline">Entertainment · Attraction · Dining</div><ul><li>London Eye 할인</li><li>LOVEtheatre 공연·뮤지컬 할인</li><li>Michelin-starred restaurant 예약</li><li>Landmark · EPL · Shopping · Dining 콘텐츠 결합</li></ul><p class="mini"><b>핵심:</b> London의 대표 엔터테인먼트와 관광지를 Visa 이용 동선으로 연결.</p></div>
+      <div class="card city dubai"><h3><span class="flag">🇦🇪</span>Dubai</h3><div class="tagline">Wide Merchant Coverage</div><ul><li>The Green Planet: 약 30% 할인</li><li>Real Madrid World · Global Village 할인</li><li>Yango 첫 5회 차량 이용 할인</li><li>THE ENTERTAINER 2-for-1</li><li>lululemon · THAT Concept Store 쇼핑 혜택</li></ul><p class="mini"><b>핵심:</b> 관광·교통·쇼핑·음식을 폭넓게 커버해 여행 소비 Coverage를 확대.</p></div>
+      <div class="card city thai"><h3><span class="flag">🇹🇭</span>Thailand</h3><div class="tagline">APAC 대표 사례 · 국가 단위 Destination</div><ul><li>Bangkok · Phuket · Chiang Mai · Pattaya · Udon Thani · Samui</li><li>Central · King Power · ONESIAM 쇼핑 혜택</li><li>Rajadamnern Stadium · TAGTHAi 관광 혜택</li><li>Health Land · Spa Cenvaree Wellness</li><li>Visa Infinite 대상 Wellness & Hotel Premium Benefit</li></ul><p class="mini"><b>핵심:</b> Asia Pacific 첫 Visa Destinations 시장으로, 한국 벤치마킹 관점에서 가장 유사한 구조.</p></div>
+      <div class="card city nyc"><h3><span class="flag">🇺🇸</span>New York</h3><div class="tagline">Priority Access · Global Event</div><ul><li>Top of the Rock Early Bird 입장</li><li>Visa Infinite Priority Access</li><li>Rockefeller Center Visa 혜택</li><li>FIFA World Cup 26 Fan Village · Visa Infinite Lounge 연계</li></ul><p class="mini"><b>핵심:</b> 단순 할인보다 Priority와 글로벌 이벤트 sponsorship asset을 결합.</p></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="card deep">
+      <h2>4. Thailand가 중요한 이유</h2>
+      <p>태국은 도시 하나가 아니라 <b>여러 관광 도시를 국가 단위로 묶은 APAC형 모델</b>입니다. 관광청(TAT)과 협업해 쇼핑, 관광, Wellness, Hotel, Local Experience를 폭넓게 연결했습니다.</p>
+      <div class="grid grid-3" style="margin-top:14px">
+        <div class="card"><b>Retail</b><p class="mini">Central Department Store, King Power Duty Free, ONESIAM</p></div>
+        <div class="card"><b>Experience</b><p class="mini">Rajadamnern Stadium, TAGTHAi, Local Attractions</p></div>
+        <div class="card"><b>Premium Wellness</b><p class="mini">Health Land, Spa Cenvaree, Chiva-Som</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="card songwat">
+      <h2>5. Song Wat — 가장 참고할 만한 District형 사례</h2>
+      <p><b>“Feel So Thai at Song Wat with Visa”</b>는 Bangkok의 오래된 상업지역을 하나의 Visa Destination Experience로 만든 사례입니다.</p>
+      <div class="diagram" style="margin-top:16px">
+        <div class="node"><b>Visa Lounge</b><span>여행 시작점 / 안내</span></div>
+        <div class="node"><b>Visa Journal</b><span>스탬프 수집</span></div>
+        <div class="node"><b>Local Merchants</b><span>카페 · 식당 · 갤러리 · 상점</span></div>
+        <div class="node"><b>Visa Payment</b><span>영수증·결제 확인</span></div>
+        <div class="node"><b>Exclusive Reward</b><span>전용 리워드 제공</span></div>
+      </div>
+      <p class="mini" style="margin-top:16px"><b>핵심 포인트:</b> 개별 가맹점을 홍보하는 것이 아니라 ‘지역’을 큐레이션하고, 방문객의 이동 경로를 설계해 여러 Visa 가맹점에서 소비하도록 유도합니다.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>6. 글로벌 운영 현황</h2>
+    <table class="matrix">
+      <thead><tr><th>지역</th><th>2026.08 공개 확인</th><th>비고</th></tr></thead>
+      <tbody>
+        <tr><td>Paris</td><td class="ok">운영</td><td>초기 핵심 도시</td></tr>
+        <tr><td>London</td><td class="ok">운영</td><td>초기 핵심 도시</td></tr>
+        <tr><td>Dubai</td><td class="ok">운영</td><td>가맹점 Coverage형</td></tr>
+        <tr><td>Thailand</td><td class="ok">운영</td><td>APAC 최초</td></tr>
+        <tr><td>New York</td><td class="ok">운영</td><td>Priority / FIFA 연계</td></tr>
+        <tr><td>Milan</td><td class="ok">운영</td><td>현재 운영</td></tr>
+        <tr><td>Rome</td><td class="ok">운영</td><td>현재 운영</td></tr>
+        <tr><td>Mexico City</td><td class="ok">운영</td><td>현재 운영</td></tr>
+        <tr><td>Miami</td><td class="ok">운영</td><td>현재 운영</td></tr>
+        <tr><td>San Francisco</td><td class="ok">운영</td><td>현재 운영</td></tr>
+        <tr><td>Singapore</td><td class="plan">2026 예정</td><td>Visa 공식 발표에 확장 계획 포함</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="section">
+    <h2>7. Visa가 이 프로그램을 하는 이유</h2>
+    <div class="grid grid-3">
+      <div class="insight"><h3>① Cross-border Volume</h3><p>여행자의 현지 소비 전체에서 Visa 결제 비중을 확대.</p></div>
+      <div class="insight"><h3>② Top-of-wallet</h3><p>여행 중 “어떤 카드를 쓸지”의 첫 선택을 Visa로 고정.</p></div>
+      <div class="insight"><h3>③ Premium Differentiation</h3><p>Infinite / Signature 등 프리미엄 카드의 실사용 가치를 강화.</p></div>
+    </div>
+    <div class="flow" style="margin-top:16px">
+      <div class="step">Discovery</div><div class="arrow">→</div><div class="step">Booking</div><div class="arrow">→</div><div class="step">Experience</div><div class="arrow">→</div><div class="step">Payment</div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="card lpbox">
+      <h2>8. LINE Pay 관점의 시사점</h2>
+      <div class="lp-flow">
+        <div class="lp-side"><h3>현재 일반적인 Inbound 모델</h3><p>TW 관광객 → LINE Pay → 개별 관광 가맹점 → 프로모션/콘텐츠 → 결제</p></div>
+        <div class="vs">VS.</div>
+        <div class="lp-side"><h3>Destination형 확장 모델</h3><p>여행지 선택 → 지역 콘텐츠 → 여행 동선 → Local Experience → Merchant Benefit → LINE Pay 결제</p></div>
+      </div>
+      <div class="grid grid-3" style="margin-top:16px">
+        <div class="card"><b>① 지역 단위 묶음</b><p class="mini">가맹점 하나가 아니라 Haeundae / Gwangalli / Seomyeon 같은 Destination 단위.</p></div>
+        <div class="card"><b>② 할인 외 차별화</b><p class="mini">Priority, Exclusive Access, Lounge, Limited Experience 확보.</p></div>
+        <div class="card"><b>③ 관광기관 공동 큐레이션</b><p class="mini">관광청·관광재단·지역기관과 공식 itinerary 개발.</p></div>
+        <div class="card"><b>④ 출발 전 → 현지 연결</b><p class="mini">대만 콘텐츠 노출부터 한국 현지 결제까지 하나의 funnel로 설계.</p></div>
+        <div class="card"><b>⑤ 결제 Coverage 확대</b><p class="mini">Eat · Shop · Experience · Wellness · Transport를 한 여행 동선 안에 연결.</p></div>
+        <div class="card"><b>예시: LINE Pay Busan</b><p class="mini">Haeundae · Gwangalli · Seomyeon · Jeonpo + Local Benefits + LINE Pay TW 콘텐츠.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>9. 핵심 결론</h2>
+    <div class="quote">Visa Destinations의 경쟁력은 “몇 개 가맹점에서 몇 % 할인”이 아니라, <b>특정 도시에서 Visa를 쓰면 더 좋은 여행을 할 수 있다</b>는 인식을 만드는 데 있습니다.</div>
+  </section>
+
+  <section class="section">
+    <h2>참고한 공개 자료</h2>
+    <ol class="sources">
+      <li><a href="https://usa.visa.com/about-visa/newsroom/press-releases.releaseId.22521.html" target="_blank" rel="noopener noreferrer">Visa – Global expansion of Visa Destinations</a></li>
+      <li><a href="https://www.visa.com.sg/about-visa/newsroom/press-releases/visa-redefines-its-role-in-travel-with-the-global-expansion-of-visa-destinations.html" target="_blank" rel="noopener noreferrer">Visa Singapore – Visa Destinations global expansion</a></li>
+      <li><a href="https://www.visa.co.th/en_TH/about-visa/newsroom/press-releases/visa-and-tourism-authority-of-thailand-tat-partner-to-shape-thailands-next-phase-of-value-led-inbound-tourism.html" target="_blank" rel="noopener noreferrer">Visa Thailand / TAT partnership</a></li>
+      <li><a href="https://www.visa.co.th/en_TH/about-visa/newsroom/press-releases/visa-destinations-thailand-puts-song-wat-on-the-map-as-a-must-visit-cultural-district.html" target="_blank" rel="noopener noreferrer">Visa Thailand – Song Wat case</a></li>
+      <li><a href="https://www.rockefellercenter.com/visa-offers" target="_blank" rel="noopener noreferrer">Rockefeller Center – Visa offers</a></li>
+      <li><a href="https://www.visa.com.ge/en_GE/pay-with-visa/promotions/visa-destinations.html" target="_blank" rel="noopener noreferrer">Visa Destinations promotion examples</a></li>
+    </ol>
+  </section>
+
+  <div class="footer">Public sources only · Visa Destinations overview</div>
+</div>
+</body>
+</html>

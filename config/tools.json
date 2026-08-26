@@ -57,5 +57,23 @@
       "enabled": true
     }
   ],
-  "references": []
+  "references": [
+    {
+      "id": "visa-destinations-report",
+      "name": "Visa Destinations 글로벌 사례 분석",
+      "description": "Visa의 도시별 여행·가맹점 혜택 운영 사례와 LINE Pay 관점의 시사점을 정리한 보고서입니다.",
+      "url": "https://git.linecorp.com/pages/yb-song/internal-tools-portal/reports/visa-destinations-report.html",
+      "publicUrl": "https://yb-song-line.github.io/internal-tools-portal/reports/visa-destinations-report.html",
+      "category": "시장·산업 분석",
+      "icon": "🌐",
+      "tags": ["Visa", "여행", "결제", "글로벌 사례"],
+      "basis": "Visa 공식 보도자료 등 외부 공개 정보 · 2026.08.21 기준",
+      "riskNote": "공개 자료 기반의 참고용 분석입니다. 기준일 이후 운영 현황이 변경될 수 있으므로 최신 공식 자료를 함께 확인하세요.",
+      "access": "enterprise-protected",
+      "publicAccess": "external-public",
+      "featured": true,
+      "order": 10,
+      "enabled": true
+    }
+  ]
 }
