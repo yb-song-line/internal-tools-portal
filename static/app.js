@@ -1,6 +1,6 @@
 const state = { tools: [], references: [], section: "tools", category: "전체", query: "" };
 const isPublicMirror = window.location.hostname === "yb-song-line.github.io";
-const assetVersion = "20260826-5";
+const assetVersion = "20260907-1";
 const sectionSettings = {
   tools: {
     kicker: "WORK TOOLS",
@@ -181,7 +181,10 @@ function mapPublicItem(item) {
 
 function prepareItems(items) {
   return items
-    .filter(item => item.enabled !== false)
+    .filter(item =>
+      item.enabled !== false
+      && (!isPublicMirror || item.access === "external-public" || Boolean(item.publicUrl))
+    )
     .map(mapPublicItem)
     .sort((left, right) =>
       (Number(left.order ?? 9999) - Number(right.order ?? 9999))

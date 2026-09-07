@@ -17,6 +17,13 @@ class PortalTests(unittest.TestCase):
         self.assertEqual(len(content_ids), len(set(content_ids)))
         self.assertTrue(all(server.ID_PATTERN.fullmatch(item_id) for item_id in content_ids))
 
+    def test_enterprise_pages_reports_are_in_repository(self) -> None:
+        pages_prefix = "https://git.linecorp.com/pages/yb-song/internal-tools-portal/"
+        for item in server.CONFIG["references"]:
+            if item["url"].startswith(pages_prefix):
+                relative_path = item["url"][len(pages_prefix):]
+                self.assertTrue((server.ROOT / relative_path).is_file(), item["id"])
+
     def test_signed_session_rejects_tampering(self) -> None:
         token = server.create_session(server.PORTAL_USERNAME)
         self.assertTrue(server.validate_session(token))
